@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <style media="screen">
+        .area-bolhas div {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            background-color: blue;
+            border: 1px solid #bbb;
+            border-radius: 100%;
+        }
+
+        .center-element {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 30px;
+            color: #fff;
+            font-style: bold;
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #ff00de, 0 0 70px #ff00de, 0 0 80px #ff00de, 0 0 100px #ff00de, 0 0 150px #ff00de;
+        }
+    </style>
+</head>
+
+<body>
+    <p>
+        Pontuação <span class="pontos">0 <span id="paused"></span></span>
+    </p>
+
+    <button type="button" name="button" id="bolhas">Start</button>
+    <button type="button" name="button" id="pause">Pause</button>
+    <button type="button" name="button" id="stop">Stop</button>
+
+    <div class="area-bolhas">
+
+        <div class="">
+            <span id="layer" class="center-element">1</span>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        var areaBolhas = document.querySelector('.area-bolhas');
+        var spanPontos = document.querySelector('.pontos');
+
+        var butao = document.getElementById('bolhas');
+        var pause = document.getElementById('pause');
+        var pausedSpan = document.getElementById('paused');
+
+        var stop = document.getElementById('stop');
+
+        var layer = document.getElementById('layer');
+
+        var contadorAddBolhas = 0;
+        var contMinRemBolhas = 0;
+
+        var limiteBolhas = 10;
+
+        var dispersao = 800;
+        var tamanMaxBolha = 200;
+        var tamanMinBolha = 30;
+
+        var width = 1350;
+        var height = 650;
+
+        var velocidade = 1000;
+
+        var pontuacao = 0;
+
+        // areaBolhas.removeChild;
+
+        function addBolhas() {
+            var bolha = document.createElement('div');
+            var tamanho = (Math.random() * tamanMaxBolha + tamanMinBolha + "px");
+
+            var red = Math.floor(Math.random() * 255);
+            green = Math.floor(Math.random() * 255);
+            blue = Math.floor(Math.random() * 255);
+
+            // bolha.style.display = "";
+            bolha.style.top = Math.floor(Math.random() * 1350) + "px";
+            bolha.style.left = Math.floor(Math.random() * 650) + "px";
+
+            bolha.style.height = tamanho;
+            bolha.style.width = tamanho;
+
+            bolha.style.backgroundColor = "rgb(" + red + "," + green + "," + blue + ")";
+            areaBolhas.appendChild(bolha);
+            //layer.
+
+            contadorAddBolhas++;
+            // layer = contadorAddBolhas;
+
+            // areaBolhas.appendChild(layer);
+
+            layer.innerHTML = contadorAddBolhas;
+            //layer = contadorAddBolhas;
+            //bolha.appendChild(layer);
+
+
+
+            console.log(contadorAddBolhas);
+
+            bolha.addEventListener('click', estouraBolha);
+            stop.addEventListener('click', stope);
+            pause.addEventListener('click', paus);
+
+            verifyGameOver();
+
+        }
+
+        function stope() {
+            contadorAddBolhas = 0;
+            contMinRemBolhas = 0;
+            clearInterval(intervalo);
+            butao.style.display = 'block';
+
+            var firstItem = areaBolhas.firstChild;
+
+            while (firstItem) {
+                areaBolhas.removeChild(firstItem);
+
+                firstItem = areaBolhas.firstChild;
+                pontuacao = 0;
+
+                spanPontos.innerHTML = pontuacao;
+            }
+
+        }
+
+        function paus() {
+            clearInterval(intervalo);
+            butao.style.display = 'inline';
+
+            butao.addEventListener('click', addBolhas);
+
+            pausedSpan.innerHTML = "Game Is Paused";
+
+        }
+
+        function estouraBolha() {
+            areaBolhas.removeChild(this);
+
+            contadorAddBolhas--;
+            console.log(contadorAddBolhas);
+            contMinRemBolhas++;
+
+            pontuacao++;
+
+            spanPontos.innerHTML = pontuacao;
+
+        }
+
+        function iniciarJogo() {
+            intervalo = setInterval(addBolhas, velocidade);
+            butao.style.display = 'none';
+
+        }
+
+        function verifyGameOver() {
+
+            if (contadorAddBolhas > 10) {
+                clearInterval(intervalo);
+                alert("Voce perdeu o desafio" + contadorAddBolhas);
+                stope();
+            }
+
+        }
+
+        //setInterval(addBolhas, velocidade);
+        butao.addEventListener('click', iniciarJogo);
+    </script>
+</body>
+
+</html>

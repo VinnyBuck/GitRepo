@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <style type="text/css" media="screen">
+        body {
+            font-size: 30px;
+        }
+
+        li {
+            cursor: pointer;
+        }
+
+        .feito {
+            text-decoration: line-through;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <label for="todo">ToDop</label>
+        <input type="text" name="todo" value="">
+
+        <button type="button" name="button">Adicionar</button>
+        <button type="button" name="button" id="del">Apagar</button>
+    </header>
+
+    <ul>
+
+    </ul>
+
+    <script type="text/javascript">
+        var input = document.querySelector('input');
+        var buton = document.querySelector('button');
+        var list = document.querySelector('ul');
+
+        var del = document.getElementById('del');
+
+        function addItem() {
+            var item = document.createElement('li');
+            item.innerHTML = input.value;
+            item.addEventListener('click', completarTarefa);
+
+            list.appendChild(item);
+        }
+
+        function completarTarefa() {
+            this.classList.add('feito');
+        }
+
+        function deletar() {
+            //list.innerHTML = "";
+
+            var firstItem = list.firstChild;
+
+            while (firstItem) {
+                list.removeChild(firstItem);
+
+                firstItem = list.firstChild;
+
+            }
+
+            // if (list.hasChildNodes()) {
+            //     console.log(item);
+            // }
+            // //list.forEach(item);
+            //list.removeChild();
+            // forEach(list.removeChild(item));
+
+        }
+        del.addEventListener('click', deletar);
+        buton.addEventListener('click', addItem);
+    </script>
+</body>
+
+</html>
